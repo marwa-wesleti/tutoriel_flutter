@@ -98,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 testToast();
               }),
           ElevatedButton(
-              child: Text("test design"), //click me button
+              child: Text("test database"), //click me button
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) => SplashScreen()));
