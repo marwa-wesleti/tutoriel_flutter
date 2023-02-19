@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage>{
   TextEditingController password=TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-  String url="http://172.16.122.150/testFlutter/login.php";
+  String url="http://adreese ip/testFlutter/login.php";
   Future login() async {
     if(_formKey.currentState!.validate()){
       final response=await http.post(Uri.parse(url),body: {
