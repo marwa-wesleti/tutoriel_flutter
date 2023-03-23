@@ -1,4 +1,7 @@
+
 import 'package:tests/design_interface/Profile_interface.dart';
+import 'package:tests/simple_test/calendrierEvent.dart';
+import 'package:tests/simple_test/dataTable.dart';
 import 'package:tests/simple_test/gest.dart';
 import 'package:tests/simple_test/listview.dart';
 import 'package:tests/simple_test/productBox.dart';
@@ -24,7 +27,8 @@ class MyApp extends StatelessWidget {
         "gridview": (context) => gridview(),
         "splash": (context) => SplashScreen(),
         "LoginPage": (context) => LoginPage(),
-        "Profile": (context) => Profile(userName: "", password: "")
+        "Profile": (context) => Profile(userName: "", password: ""),
+       
       },
       initialRoute: "MyHomePage",
       title: 'Hello World Demo Application',
@@ -103,7 +107,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) => SplashScreen()));
               }),
-          
+          ElevatedButton(
+              child: Text("test dataTable"), //click me button
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => MyDataTable()));
+              }),
+               ElevatedButton(
+              child: Text("test calendarEvent"), //click me button
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => CalendrierEvent()));
+              }),
         ],
       )),
     );

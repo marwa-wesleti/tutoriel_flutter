@@ -46,6 +46,8 @@ dependencies:
   alt_sms_autofill: ^1.0.0
   pin_code_fields: ^7.4.0
   otp_autofill: ^2.1.0
+  syncfusion_flutter_calendar: ^21.1.35
+   
 
 dev_dependencies:
   flutter_test:

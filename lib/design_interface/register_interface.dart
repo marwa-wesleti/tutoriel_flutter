@@ -22,15 +22,13 @@ class _RegisterState extends State<Register> {
 
   bool? check = false;
   final _formKey = GlobalKey<FormState>();
-  String url="http://adresse ip/testFlutter/insert.php";
+  String url="http://192.168.100.136/testFlutter/insert.php";
 
    register() async {
   if (_formKey.currentState!.validate()) {      
   final response = await http.post(Uri.parse(url), body: {
-    "firstName": firstName.text,
-    "lastName": LastName.text,
+    "userName" : firstName.text+" "+LastName.text,
     "email": email.text,
-    "mobile":Number.text,
     "password":pass.text
   });
   print(response.statusCode);
