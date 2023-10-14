@@ -1,18 +1,11 @@
-import 'package:tests/design_interface/loginPage.dart';
+import 'package:tests/testProject/loginPage.dart';
 import 'package:tests/simple_test/listview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class Profile extends StatefulWidget {
-  final String userName;
-  final String password;
-  final String? email;
-  final String? phone;
-  
-
-  const Profile({super.key, required this.userName, required this.password, this.email,  this.phone});
-
+ 
   @override
   State<Profile> createState() => _ProfileState();
 }
@@ -59,7 +52,7 @@ class _ProfileState extends State<Profile> {
                       SizedBox(height: 40,),
                       CircleAvatar(backgroundImage:AssetImage("assets/images/food.png"),radius: 60,),
                       SizedBox(height: 10,),
-                      Text(widget.userName,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),)
+                      Text("",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),)
 
                 ],
               )
@@ -77,7 +70,7 @@ class _ProfileState extends State<Profile> {
                                   leading: Icon(Icons.person,color: Colors.white,),
                                   title: Text("Profile",style: TextStyle(color: Colors.white),),
                                   onTap: () {
-                                    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) =>Profile(userName: widget.userName, password: widget.password)));
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) =>Profile()));
                                   },
                                   
                                 ),
@@ -172,7 +165,7 @@ class _ProfileState extends State<Profile> {
               height: 10,
             ),
             Text(
-              "${widget.userName}",
+              "",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
            
@@ -222,17 +215,17 @@ class _ProfileState extends State<Profile> {
                                 ListTile(
                                   leading: Icon(Icons.email),
                                   title: Text("Email"),
-                                  subtitle: Text("${widget.email}"),
+                                  subtitle: Text(""),
                                 ),
                                 ListTile(
                                   leading: Icon(Icons.phone),
                                   title: Text("Phone"),
-                                  subtitle: Text("${widget.phone}"),
+                                  subtitle: Text(""),
                                 ),
                                 ListTile(
                                   leading: Icon(Icons.password),
                                   title: Text("Password"),
-                                  subtitle: Text("${widget.password}"),
+                                  subtitle: Text(""),
                                 ),
                                 ListTile(
                                   leading: Icon(Icons.person),

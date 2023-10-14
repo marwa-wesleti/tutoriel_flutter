@@ -1,9 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:tests/Constants/constants.dart';
 import 'package:tests/design_interface/Profile_interface.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
+import 'package:tests/testProject/loginPage.dart';
+import 'package:tests/design_interface/verifyPhone.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -11,7 +16,6 @@ class Register extends StatefulWidget {
   @override
   State<Register> createState() => _RegisterState();
 }
-
 
 class _RegisterState extends State<Register> {
   TextEditingController firstName = TextEditingController();
@@ -22,48 +26,9 @@ class _RegisterState extends State<Register> {
 
   bool? check = false;
   final _formKey = GlobalKey<FormState>();
-  String url="http://192.168.100.136/testFlutter/insert.php";
-
-   register() async {
-  if (_formKey.currentState!.validate()) {      
-  final response = await http.post(Uri.parse(url), body: {
-    "userName" : firstName.text+" "+LastName.text,
-    "email": email.text,
-    "password":pass.text
-  });
-  print(response.statusCode);
-  var resbody=await json.decode(json.encode(response.body)); 
-  print(resbody.toString());
-  if(response.statusCode==200){
-  if(resbody.toString().contains("successfull")){
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
-        builder:(BuildContext context)=> Profile(
-                    userName: firstName.text+" "+LastName.text,
-                    password: pass.text,
-                    email: email.text,
-                    phone: Number.text,
-                  )),
-                  (Route<dynamic> route) => false
-                  
-                  );
-  
-
-    }
-     else{
-    Fluttertoast.showToast(
-        msg: 'Client exist',
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Color.fromARGB(255, 95, 92, 92),
-        textColor: Colors.white);
-  }
-    }
-      
-    
-  }
- 
-  }
-  
+  final CollectionReference _usersCollection =
+      FirebaseFirestore.instance.collection('users');
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +125,6 @@ class _RegisterState extends State<Register> {
                       child: TextFormField(
                         controller: LastName,
                         decoration: InputDecoration(
-                          
                             hintText: "Last Name",
                             border: OutlineInputBorder(
                               borderRadius:
@@ -282,18 +246,15 @@ class _RegisterState extends State<Register> {
                       validator: (value) {
                         if (!check!) {
                           return 'You need to accept terms and conditions';
-                        } 
-                         return null;
-                        
+                        }
+                        return null;
                       },
                     ),
                     SizedBox(
                       width: 150,
                       child: ElevatedButton(
                           onPressed: () {
-                           
-                              register();
-                            
+                            register();
                           },
                           child: Text(
                             "REGISTER",
@@ -321,8 +282,10 @@ class _RegisterState extends State<Register> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                            child: Image(
-                                image: AssetImage("assets/images/google.png"))),
+                            child: GestureDetector(
+                          child: Image(
+                              image: AssetImage("assets/images/google.png")),
+                        )),
                         Container(
                             margin: EdgeInsets.fromLTRB(20, 0, 0, 0),
                             child: Image(
@@ -343,5 +306,36 @@ class _RegisterState extends State<Register> {
         ),
       ),
     );
+  }
+
+  void register() async {
+    try {
+      UserCredential userCredential =
+          await auth.createUserWithEmailAndPassword(
+        email: email.text,
+        password: pass.text,
+      );
+       await auth.setLanguageCode('fr');
+      await userCredential.user!.sendEmailVerification();// yaab3eth lel user email de vérification
+      addToast("Un e-mail de vérification a été envoyé à ${email.text}");
+
+       Map<String, dynamic> userData ={
+        'Nom complet': firstName.text,
+        'Email': email.text,
+        'Telephone': Number.text
+      };
+
+      
+       // await _usersCollection.doc(userCredential.user!.uid).set(userData).then((value) => Get.to(()=>LoginPage()));
+      
+
+    }on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        addToast("email exist");
+      }
+
+    } catch (e) {
+        
+    }
   }
 }

@@ -1,4 +1,6 @@
 {
     "java.configuration.updateBuildConfiguration": "interactive",
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "cmake.configureOnOpen": true,
+    "cmake.sourceDirectory": "C:/Users/Marwa/Desktop/tutorial/dev_mobile/flutter/tests/linux"
 }
